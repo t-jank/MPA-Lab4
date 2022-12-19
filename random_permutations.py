@@ -8,8 +8,7 @@ import random
 
 def random_permutation(n):
     a=[]
-    for i in range(0,n):
-        a.append(i+1)
+    for i in range(0,n): a.append(i+1)
     for i in range(0,n-1): # Fisher–Yates shuffle
         j = random.randint(i,n-1)
         a[i], a[j] = a[j], a[i]
