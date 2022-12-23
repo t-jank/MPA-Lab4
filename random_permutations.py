@@ -14,4 +14,15 @@ def random_permutation(n):
         a[i], a[j] = a[j], a[i]
     return a
 
-print(random_permutation(10))
+def records(permutation):
+    n=len(permutation)
+    records_counter=0
+    for i in range(0,n-1):
+        if permutation[i+1]>permutation[i]:
+            records_counter+=1
+    return records_counter
+
+
+a=random_permutation(10)
+print(a)
+print('records:',records(a))
