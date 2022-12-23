@@ -5,6 +5,7 @@ Created on Mon Dec 19 17:25:20 2022
 @author: t-jan
 """
 import random
+import math
 
 def random_permutation(n):
     a=[]
@@ -14,6 +15,14 @@ def random_permutation(n):
         a[i], a[j] = a[j], a[i]
     return a
 
+def fixed_points(permutation):
+    n=len(permutation)
+    fixed_points_counter=0
+    for i in range(0,n):
+        if permutation[i]==i+1:
+            fixed_points_counter+=1
+    return fixed_points_counter
+
 def records(permutation):
     n=len(permutation)
     records_counter=0
@@ -22,7 +31,23 @@ def records(permutation):
             records_counter+=1
     return records_counter
 
+def cycles(permutation):
+    n=len(permutation)
+    expected_number_of_cycles = 0
+    for i in range(1,n+1): expected_number_of_cycles+=(1/i)
+    gamma=0.57721566490153286
+    exnoc=math.log1p(n)+gamma
+    flags=[]
+    for i in range(0,n):
+        flags.append('n')
+    pom=0
+    if 'n' in flags:
+        flags[pom]='t'
+        pom=flags[pom-1]
+        
 
-a=random_permutation(10)
+
+a=random_permutation(5)
 print(a)
 print('records:',records(a))
+print(fixed_points(a))
