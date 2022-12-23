@@ -33,13 +33,16 @@ def records(permutation):
 
 def cycles(permutation):
     n=len(permutation)
-    expected_number_of_cycles = 0
-    for i in range(1,n+1): expected_number_of_cycles+=(1/i)
-    gamma=0.57721566490153286
-    exnoc=math.log1p(n)+gamma
+ #   expected_number_of_cycles = 0
+  #  for i in range(1,n+1): expected_number_of_cycles+=(1/i)
+   # gamma=0.57721566490153286
+    #exnoc=math.log1p(n)+gamma
+    identity=[]
+    for i in range(0,n): identity.append(i+1)
+    print(identity)
     flags=[]
-    for i in range(0,n):
-        flags.append('n')
+    for i in range(0,n): flags.append('n')
+    print(flags)
     pom=0
     if 'n' in flags:
         flags[pom]='t'
@@ -47,7 +50,6 @@ def cycles(permutation):
         
 
 
-a=random_permutation(5)
+a=random_permutation(10)
 print(a)
-print('records:',records(a))
-print(fixed_points(a))
+cycles(a)
