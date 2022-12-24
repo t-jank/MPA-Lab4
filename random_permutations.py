@@ -6,6 +6,7 @@ Created on Mon Dec 19 17:25:20 2022
 """
 import random
 import math
+import time
 
 def random_permutation(n):
     a=[]
@@ -33,23 +34,26 @@ def records(permutation):
 
 def cycles(permutation):
     n=len(permutation)
- #   expected_number_of_cycles = 0
-  #  for i in range(1,n+1): expected_number_of_cycles+=(1/i)
-   # gamma=0.57721566490153286
-    #exnoc=math.log1p(n)+gamma
-    identity=[]
-    for i in range(0,n): identity.append(i+1)
-    print(identity)
+    start1=time.time()
+    expected_cycles_1 = 0
+    for i in range(1,n+1): expected_cycles_1+=(1/i)
+    gamma=0.57721566490153286
+    expected_cycles_2=math.log1p(n)+gamma
     flags=[]
     for i in range(0,n): flags.append('n')
-    print(flags)
-    pom=0
-    if 'n' in flags:
-        flags[pom]='t'
-        pom=flags[pom-1]
-        
+    cycles_counter=0
+    for i in range(0,n):
+        index=i
+        if flags[i]=='n':
+            cycles_counter+=1
+            while flags[index]!='t':
+                flags[index]='t'
+                value=permutation[index]
+                index=value-1
+    return cycles_counter
 
 
-a=random_permutation(10)
-print(a)
-cycles(a)
+a=random_permutation(1000)
+#print(a)
+print(cycles(a))
+
