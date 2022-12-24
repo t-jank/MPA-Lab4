@@ -6,7 +6,7 @@ Created on Mon Dec 19 17:25:20 2022
 """
 import random
 import math
-import time
+
 
 def random_permutation(n):
     a=[]
@@ -34,11 +34,12 @@ def records(permutation):
 
 def cycles(permutation):
     n=len(permutation)
-    start1=time.time()
+    '''
     expected_cycles_1 = 0
     for i in range(1,n+1): expected_cycles_1+=(1/i)
     gamma=0.57721566490153286
     expected_cycles_2=math.log1p(n)+gamma
+    '''
     flags=[]
     for i in range(0,n): flags.append('n')
     cycles_counter=0
@@ -53,7 +54,5 @@ def cycles(permutation):
     return cycles_counter
 
 
-a=random_permutation(1000)
-#print(a)
-print(cycles(a))
+a=random_permutation(100)
 
