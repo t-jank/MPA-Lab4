@@ -6,6 +6,7 @@ Created on Mon Dec 19 17:25:20 2022
 """
 import random
 import math
+import matplotlib.pyplot as plt
 
 
 def random_permutation(n):
@@ -53,6 +54,25 @@ def cycles(permutation):
                 index=value-1
     return cycles_counter
 
-
-a=random_permutation(100)
-
+nMin=5
+nMax=10000
+nStep=10
+nRepeats=10
+fp_big_sum=0
+draw=False
+for n in range(nMin,nMax,nStep):
+    fp_sum=0
+    for r in range(0,nRepeats): 
+        a = random_permutation(n)
+        fp = fixed_points(a)
+        fp_sum += fp
+        fp_big_sum += fp
+    if draw==True:
+        plt.scatter(n,fp_sum/nRepeats,color='hotpink')
+if draw==True:
+    plt.xlim(left=0)
+    plt.xlabel('n')
+    plt.ylabel('number of fixed points')
+    plt.title('Punkty stałe')
+    plt.show()
+print('Average number of fixed points:',fp_big_sum/(math.ceil((nMax-nMin)/nStep)*nRepeats))
