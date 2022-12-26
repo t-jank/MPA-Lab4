@@ -54,30 +54,28 @@ def cycles(permutation):
                 index=value-1
     return cycles_counter
 
-nMin=10
-nMax=1000
+nMin=5
+nMax=10000
 nStep=10
-nRepeats=10
+nRepeats=20
 #fp_big_sum=0
 draw=True
 for n in range(nMin,nMax,nStep):
     sum=0
     for r in range(0,nRepeats): 
         a = random_permutation(n)
-      #  fp = fixed_points(a)
+        fp = fixed_points(a)
        # cc = cycles(a)
-        rc=records(a)
-     #   sum += fp
+     #   rc=records(a)
+        sum += fp
      #   fp_big_sum += fp
-        sum += rc
     if draw==True:
         plt.scatter(n,sum/nRepeats,color='hotpink')
 if draw==True:
     plt.xlim(left=0)
     plt.xlim(right=nMax)
     plt.xlabel('n')
- #   plt.ylabel('number of fixed points')
-    plt.ylabel('cycles')
-    plt.title('Liczba cykli losowej permutacji')
+    plt.ylabel('fixed points')
+    plt.title('Liczba punktów stałych losowej permutacji')
     plt.show()
 #print('Average number of fixed points:',fp_big_sum/(math.ceil((nMax-nMin)/nStep)*nRepeats))
