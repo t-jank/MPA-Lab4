@@ -59,7 +59,7 @@ nMin=5
 nMax=100
 nStep=1
 nRepeats=1
-alfa=0.1 #0.1=90%
+alfa=0.2 #0.1=90%
 #fp_big_sum=0
 draw=True
 results=[]
@@ -89,9 +89,9 @@ yczeb2=2*[avgres-deltaczeb]
 xrange=[nMin,nMax-1]
 plt.plot(xrange,yczeb1,color='b',label='Czebyszew')
 plt.plot(xrange,yczeb2,color='b')
-pomrzecz=results
-for i in range(0,len(pomrzecz)):
-    pomrzecz[i]=abs(pomrzecz[i]-avgres)
+pomrzecz=[]
+for i in range(0,len(results)):
+    pomrzecz.append(abs(results[i]-avgres))
 pomrzecz.sort()
 deltarzecz=pomrzecz[math.ceil((1-alfa)*len(pomrzecz))]
 yrzecz1=2*[avgres+deltarzecz]
@@ -103,7 +103,38 @@ ychern1=2*[avgres+deltachern]
 ychern2=2*[avgres-deltachern]
 plt.plot(xrange,ychern1,color='hotpink',label='Chernoff')
 plt.plot(xrange,ychern2,color='hotpink')
+## Histogram ##
+n=1000
+nrep=1000
+#plt.scatter(n,results[n-nMin],color='crimson') # zaznaczenie badanego punktu
 plt.legend()
 plt.show()
-print(deltarzecz)
-print(avgres)
+hist_data=[]
+for r in range(0,nrep):
+    p=random_permutation(n)
+    hist_data.append(fixed_points(p))
+plt.hist(hist_data,bins=15,color='k')
+avg=statistics.mean(hist_data)
+plt.axvline(x=avg,color='orangered',label='Średnia')
+# Czebyszew
+alfa=0.9
+deltaczeb=math.sqrt(statistics.variance(hist_data)/(1-alfa))
+plt.axvline(x=avg+deltaczeb,color='b',label='Czebyszew, α='+str(alfa))
+plt.axvline(x=avg-deltaczeb,color='b')
+# Chernoff
+deltachern=3.31621889700067 #0.9, 0.85, 0.75: 3.31621889700067, 3.03243077853728, 2.65284714023292
+plt.axvline(x=avg+deltachern,color='hotpink',label='Chernoff, α='+str(alfa))
+plt.axvline(x=avg-deltachern,color='hotpink')
+# Rzeczywistość
+pomrzecz=[]
+for i in range(0,len(hist_data)):
+    pomrzecz.append(abs(hist_data[i]-avg))
+pomrzecz.sort()
+deltarzecz=pomrzecz[math.ceil((alfa)*len(pomrzecz))]
+plt.axvline(x=avg+deltarzecz,color='limegreen',label='Rzeczywistość, α='+str(alfa))
+plt.axvline(x=avg-deltarzecz,color='limegreen')
+
+plt.title('Liczba punktów stałych losowej permutacji,\nn='+str(n)+ ',\nliczba próbek='+str(nrep))
+plt.legend()
+plt.show()
+
