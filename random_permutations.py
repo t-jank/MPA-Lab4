@@ -10,6 +10,9 @@ import matplotlib.pyplot as plt
 import statistics
 
 
+def Harmonic_Number(n):
+    return 0.5772156649 + math.log(n)
+
 def random_permutation(n):
     a=[]
     for i in range(0,n): a.append(i+1)
@@ -57,8 +60,8 @@ def cycles(permutation):
 
 nMin=5
 nMax=1000
-nStep=1
-nRepeats=1
+nStep=10
+nRepeats=10
 alfa=0.1 #0.1=90%
 #fp_big_sum=0
 draw=True
@@ -68,21 +71,29 @@ for n in range(nMin,nMax,nStep):
     summ=0
     for r in range(0,nRepeats): 
         a = random_permutation(n)
-        fp = fixed_points(a)
-     #   cc = cycles(a)
+     #   fp = fixed_points(a)
+        cc = cycles(a)
      #   rc=records(a)
-        results.append(fp)
-        summ += fp
+        results.append(cc)
+        summ += cc
      #   fp_big_sum += fp
     if draw==True:
-        plt.scatter(n,summ/nRepeats,color='k')
+        if n==nMin:
+            plt.scatter(n,summ/nRepeats,color='k',label='liczba cykli ('+str(nRepeats)+' powtórzeń)')
+            plt.scatter(n,Harmonic_Number(n), color='hotpink',label='oczekiwana liczba cykli')
+        else:
+            plt.scatter(n,summ/nRepeats,color='k')
+            plt.scatter(n,Harmonic_Number(n), color='hotpink')
 if draw==True:
     plt.xlim(left=0)
     plt.xlim(right=nMax)
     plt.xlabel('n')
-    plt.ylabel('fixed points')
-    plt.title('Liczba punktów stałych losowej permutacji')
+    plt.ylabel('cycles')
+    plt.title('Liczba cykli losowej permutacji')
+    plt.legend()
 #print('Average number of fixed points:',fp_big_sum/(math.ceil((nMax-nMin)/nStep)*nRepeats))
+
+'''
 deltaczeb=math.sqrt(statistics.variance(results)/alfa)
 avgres=statistics.mean(results)
 yczeb1=2*[avgres+deltaczeb]
@@ -106,20 +117,22 @@ plt.plot(xrange,ychern1,color='hotpink',label='Chernoff, α='+str(1-alfa))
 plt.plot(xrange,ychern2,color='hotpink')
 yavg=2*[avgres]
 plt.plot(xrange,yavg,color='orangered',label='Średnia')
-
+'''
 ## Histogram ##
 n=1000
 nrep=1000
 #plt.scatter(n,results[n-nMin],color='crimson',label='Badany punkt') # zaznaczenie badanego punktu
-plt.legend()
+#plt.legend()
 plt.show()
 hist_data=[]
 for r in range(0,nrep):
     p=random_permutation(n)
-    hist_data.append(fixed_points(p))
-plt.hist(hist_data,color='k')
+    hist_data.append(cycles(p))
+plt.hist(hist_data,bins=40,color='k')
 avg=statistics.mean(hist_data)
 plt.axvline(x=avg,color='orangered',label='Średnia')
+expected_cycles=7.48547086
+plt.axvline(x=expected_cycles,color='yellow',label='Wartość oczekiwana')
 # Czebyszew
 alfa=0.9
 deltaczeb=math.sqrt(statistics.variance(hist_data)/(1-alfa))
@@ -127,8 +140,8 @@ plt.axvline(x=avg+deltaczeb,color='b',label='Czebyszew, α='+str(alfa))
 plt.axvline(x=avg-deltaczeb,color='b')
 # Chernoff # !!! błąd jest ewidentny, bo lepiej niż rzeczywistość !!!
 #deltachern=3.31621889700067 # punkty stałe # uwaga zmienić też label na wykresie #0.9, 0.85, 0.75: 3.31621889700067, 3.03243077853728, 2.65284714023292
-deltachern=2.82210997581402 # punkty stałe # uwaga zmienić też label na wykresie #0.9, 0.85, 0.75: 2.82210997581402, 2.50992648434853, 2.08134311480557
-#deltachern=7.6311551501992360998 # cykle #0.9: 1.02051624557677
+#deltachern=2.82210997581402 # punkty stałe # uwaga zmienić też label na wykresie #0.9, 0.85, 0.75: 2.82210997581402, 2.50992648434853, 2.08134311480557
+deltachern=7.6311551501992360998 # cykle #0.9: 1.02051624557677
 #deltachern=55.6957443661478617524 # rekordy #0.9: 55.6957443661478617524
 plt.axvline(x=avg+deltachern,color='hotpink',label='Chernoff, α=0.9')
 plt.axvline(x=avg-deltachern,color='hotpink')
@@ -141,8 +154,8 @@ deltarzecz=pomrzecz[math.ceil((alfa)*len(pomrzecz))]
 plt.axvline(x=avg+deltarzecz,color='limegreen',label='Rzeczywistość, α='+str(alfa))
 plt.axvline(x=avg-deltarzecz,color='limegreen')
 
-plt.title('Liczba punktów stałych losowej permutacji,\nn='+str(n)+ ',\nliczba próbek='+str(nrep))
-plt.xlabel('Liczba punktów stałych')
+plt.title('Liczba cykli losowej permutacji,\nn='+str(n)+ ',\nliczba próbek='+str(nrep))
+plt.xlabel('Liczba cykli')
 plt.ylabel('Liczba próbek')
 plt.legend()
 plt.show()
