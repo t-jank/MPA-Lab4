@@ -84,7 +84,7 @@ for n in range(nMin,nMax,nStep):
     harmonic_oy.append(Harmonic_Number(n))
     if draw==True:
         if n==nMin:
-            plt.scatter(n,summ/nRepeats,color='k',label='liczba cykli ('+str(nRepeats)+' powtórzeń)')
+            plt.scatter(n,summ/nRepeats,color='k',label='liczba rekordów ('+str(nRepeats)+' powtórzeń)')
      #       plt.scatter(n,Harmonic_Number(n), color='hotpink',label='oczekiwana liczba cykli')
         else:
             plt.scatter(n,summ/nRepeats,color='k')
